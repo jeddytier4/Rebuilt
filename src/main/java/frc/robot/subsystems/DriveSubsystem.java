@@ -12,10 +12,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -48,28 +50,72 @@ public class DriveSubsystem extends SubsystemBase {
         swerveDrive.setCosineCompensator(false);
         swerveDrive.resetOdometry(new Pose2d(1, 1, Rotation2d.kZero));
 
+        ShuffleboardTab tab = Shuffleboard.getTab("Swerve");
         field = new Field2d();
-        Shuffleboard.getTab("Swerve").add(field);
+        tab.add(field);
+
+        // swerveDrive.setMaximumAllowableSpeeds(3, 0);
+        System.out.println(swerveDrive.getMaximumChassisVelocity());
+        System.out.println(swerveDrive.getMaximumChassisAngularVelocity());
 
     }
 
+    public boolean isStill() {
+        double x = swerveDrive.getFieldVelocity().vxMetersPerSecond;
+        double y = swerveDrive.getFieldVelocity().vyMetersPerSecond;
+        double rot = swerveDrive.getFieldVelocity().omegaRadiansPerSecond;
+        return Math.abs(x) < 0.02 && Math.abs(y) < 0.02 && rot < 0.1;
+    }
+
+    public GenericEntry useHeadingToggle = Shuffleboard.getTab("Swerve")
+            .add("Use heading (warning: turns suddenly)", true).getEntry();
+
     public Command controllerDriveCommand() {
         return run(() -> {
-            Translation2d translation = SwerveMath.scaleTranslation(
-                    new Translation2d(SwerveMath.applyDeadband(-Constants.controller.getLeftY(), true, 0.1),
-                            SwerveMath.applyDeadband(-Constants.controller.getLeftX(), true, 0.1)),
-                    0.8 * swerveDrive.getMaximumChassisVelocity());
+            double x = -Constants.controller.getLeftY();
+            double y = -Constants.controller.getLeftX();
 
-            ChassisSpeeds tmp = swerveDrive.swerveController.getTargetSpeeds(translation.getX(),
-                    translation.getY(), Constants.controller.getRightX(),
-                    Constants.controller.getRightY(),
-                    swerveDrive.getOdometryHeading().getRadians(),
-                    swerveDrive.getMaximumChassisVelocity());
+            double deadband = 0.1;
+            double driveSpeed = 0.3 + 0.5 * Constants.controller.getLeftTriggerAxis();
+
+            if (x * x + y * y < deadband * deadband) {
+                x = 0;
+                y = 0;
+            } else {
+                double magnitude = Math.sqrt(x * x + y * y);
+                double angle = Math.atan2(y, x);
+                magnitude = (magnitude - deadband) / (1 - deadband);
+                x = magnitude * magnitude * Math.cos(angle);
+                y = magnitude * magnitude * Math.sin(angle);
+            }
+
+            ChassisSpeeds tmp;
+
+            boolean useHeading = useHeadingToggle.getBoolean(true);
+
+            if (useHeading) {
+                tmp = swerveDrive.swerveController.getTargetSpeeds(
+                        x,
+                        y,
+                        -Constants.controller.getRightX(),
+                        -Constants.controller.getRightY(),
+                        swerveDrive.getOdometryHeading().getRadians(),
+                        driveSpeed * swerveDrive.getMaximumChassisAngularVelocity());
+            } else {
+                double xMetersPerSecond = x * driveSpeed * swerveDrive.getMaximumChassisAngularVelocity();
+                double yMetersPerSecond = y * driveSpeed * swerveDrive.getMaximumChassisAngularVelocity();
+                double omegaRadiansPerSecond = -Constants.controller.getRightX() * driveSpeed
+                        * swerveDrive.getMaximumChassisAngularVelocity();
+                tmp = swerveDrive.swerveController.getRawTargetSpeeds(
+                        xMetersPerSecond,
+                        yMetersPerSecond,
+                        omegaRadiansPerSecond);
+            }
             swerveDrive.driveFieldOriented(tmp);
             System.out.println("odom=%.3f rightX=%.3f rightY=%.3f targetOmega=%.3f".formatted(
                     swerveDrive.getOdometryHeading().getRadians(),
-                    Constants.controller.getRightX(),
-                    Constants.controller.getRightY(), tmp.omegaRadiansPerSecond));
+                    -Constants.controller.getRightX(),
+                    -Constants.controller.getRightY(), tmp.omegaRadiansPerSecond));
             // swerveDrive.driveFieldOriented(new ChassisSpeeds(translation.getX(),
             // translation.getY(),
             // .5 * swerveDrive.getMaximumChassisAngularVelocity()

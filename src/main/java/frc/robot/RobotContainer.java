@@ -6,6 +6,8 @@ package frc.robot;
 
 import frc.robot.commands.Autos;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -47,6 +49,10 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
+        new Trigger(Constants.controller::getLeftStickButton).whileTrue(
+                m_exampleSubsystem.run(() -> {
+                    m_exampleSubsystem.swerveDrive.lockPose();
+                }));
     }
 
     /**
