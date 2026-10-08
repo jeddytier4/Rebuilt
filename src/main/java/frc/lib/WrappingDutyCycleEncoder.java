@@ -2,7 +2,6 @@ package frc.lib;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class WrappingDutyCycleEncoder extends DutyCycleEncoder {

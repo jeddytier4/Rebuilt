@@ -19,12 +19,9 @@ import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Seconds;
 import static frc.robot.Constants.DISTANCE_ABOVE_FUNNEL;
 import static frc.robot.Constants.FLYWHEEL_RADIUS;
-import static frc.robot.Constants.TURRET_MIN_ANGLE;
-import static frc.robot.Constants.TURRET_MAX_ANGLE;
 import static frc.robot.Constants.ROBOT_TO_TURRET_TRANSFORM;
 import static frc.robot.Constants.SHOT_MAP;
 import static frc.robot.Constants.TOF_MAP;
-import static frc.robot.Constants.FieldConstants;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -40,6 +37,7 @@ import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.units.measure.Time;
 // import frc.robot.Constants.FieldConstants;
 // import org.littletonrobotics.junction.Logger;
+import frc.robot.Constants.FieldConstants;
 
 /** Add your docs here. */
 public class TurretCalculator {

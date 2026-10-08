@@ -1,5 +1,7 @@
 package frc.lib;
 
+import org.ejml.simple.SimpleMatrix;
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 
@@ -11,15 +13,11 @@ import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.Kinematics;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.proto.MecanumDriveKinematicsProto;
 import edu.wpi.first.math.kinematics.struct.MecanumDriveKinematicsStruct;
-import edu.wpi.first.util.protobuf.ProtobufSerializable;
-import edu.wpi.first.util.struct.StructSerializable;
-import org.ejml.simple.SimpleMatrix;
 
 /**
  * Helper class that converts a chassis velocity (dx, dy, and dtheta components)

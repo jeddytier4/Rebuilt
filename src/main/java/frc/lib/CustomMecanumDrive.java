@@ -6,6 +6,8 @@ package frc.lib;
 
 import static edu.wpi.first.util.ErrorMessages.requireNonNullParam;
 
+import java.util.function.DoubleConsumer;
+
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
@@ -16,9 +18,7 @@ import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
-import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
-import java.util.function.DoubleConsumer;
 
 /**
  * A class for driving Mecanum drive platforms.
@@ -117,7 +117,7 @@ public class CustomMecanumDrive extends RobotDriveBase implements Sendable, Auto
    * @param frontRightMotor The motor on the front-right corner.
    * @param rearRightMotor The motor on the rear-right corner.
    */
-  @SuppressWarnings({"removal", "this-escape"})
+  // @SuppressWarnings({"removal", "this-escape"})
   public CustomMecanumDrive(
       MotorController frontLeftMotor,
       MotorController rearLeftMotor,

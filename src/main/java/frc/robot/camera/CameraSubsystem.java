@@ -5,25 +5,19 @@
 package frc.robot.camera;
 
 import java.util.Arrays;
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.GenericEntry;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
-import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.drive.DriveSubsystem;
-import frc.robot.shooter.TurretSubsystem;
 import frc.robot.utils.LimelightHelpers;
 
 public class CameraSubsystem extends SubsystemBase {
@@ -40,7 +34,7 @@ public class CameraSubsystem extends SubsystemBase {
     public GenericEntry megatag2;
 
     private DriveSubsystem driveSubsystem;
-    private TurretSubsystem turretSubsystem;
+    // private TurretSubsystem turretSubsystem;
 
     /** Creates a new ExampleSubsystem. */
     public CameraSubsystem(DriveSubsystem driveSubsystem) {

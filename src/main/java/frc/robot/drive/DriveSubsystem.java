@@ -4,7 +4,6 @@
 
 package frc.robot.drive;
 
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -12,7 +11,6 @@ import java.util.function.Supplier;
 
 import com.playingwithfusion.CANVenom;
 import com.playingwithfusion.CANVenom.BrakeCoastMode;
-import com.playingwithfusion.CANVenom.ControlMode;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
@@ -170,9 +168,9 @@ public class DriveSubsystem extends SubsystemBase {
     // gyro.setAngleAdjustment(180);
     gyro.reset();
 
-    ControlMode controlMode = ControlMode.SpeedControl;
+    // ControlMode controlMode = ControlMode.SpeedControl;
     /*** m/s to rpm */
-    double metersPerSecondToRPM = 60 / Constants.WHEEL_DISTANCE_PER_MOTOR_REV;
+    // double metersPerSecondToRPM = 60 / Constants.WHEEL_DISTANCE_PER_MOTOR_REV;
     drive = new CustomMecanumDrive(
         v -> flMotor.setVoltage(flFeedforward.calculate(v) + flPID.calculate(flEncoder.getRate(), v)),
         v -> blMotor.setVoltage(blFeedforward.calculate(v) + blPID.calculate(blEncoder.getRate(), v)),
@@ -624,7 +622,7 @@ public class DriveSubsystem extends SubsystemBase {
         blEncoder.getRate(),
         brEncoder.getRate()));
 
-    double inter = 0;
+    // double inter = 0;
 
     currentVelocity = speeds;
 
