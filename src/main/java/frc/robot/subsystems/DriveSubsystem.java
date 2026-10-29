@@ -68,7 +68,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public GenericEntry useHeadingToggle = Shuffleboard.getTab("Swerve")
-            .add("Use heading (warning: turns suddenly)", true).getEntry();
+            .add("Use heading (warning: turns suddenly)", false).getEntry();
 
     public Command controllerDriveCommand() {
         return run(() -> {
@@ -91,7 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
 
             ChassisSpeeds tmp;
 
-            boolean useHeading = useHeadingToggle.getBoolean(true);
+            boolean useHeading = useHeadingToggle.getBoolean(false);
 
             if (useHeading) {
                 tmp = swerveDrive.swerveController.getTargetSpeeds(

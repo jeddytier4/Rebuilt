@@ -4,20 +4,32 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.XboxController;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final LinearVelocity MAX_SPEED = Units.FeetPerSecond.of(10);
+    public static final LinearVelocity MAX_SPEED = Units.FeetPerSecond.of(10);
 
-  public static XboxController controller = new XboxController(0);
+    public static XboxController controller = new XboxController(0);
+
+    // this was lowkey eyeballed
+    public static final Transform3d ROBOT_TO_QUEST = new Transform3d(Units.Inches.of(-2.5),
+            Units.Inches.of(26.985 / 2 + 5), Units.Inches.of(15),
+            new Rotation3d(Units.Degrees.of(90), Units.Degrees.of(90), Units.Degrees.of(0)));
 }
